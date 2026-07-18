@@ -48,15 +48,19 @@ function Sidebar() {
         {state.player.paused ? 'Play' : 'Pause'}
       </button>
 
-      <label>
-        <input type="checkbox" checked={state.player.autoPromote} onChange={() => useGameStore.getState().toggleAutoPromote()} />
-        Auto-promote
-      </label>
+      {ageYears >= 20 && (
+        <label>
+          <input type="checkbox" checked={state.player.autoPromote} onChange={() => useGameStore.getState().toggleAutoPromote()} />
+          Auto-promote
+        </label>
+      )}
 
-      <label>
-        <input type="checkbox" checked={state.player.autoLearn} onChange={() => useGameStore.getState().toggleAutoLearn()} />
-        Auto-learn
-      </label>
+      {ageYears >= 20 && (
+        <label>
+          <input type="checkbox" checked={state.player.autoLearn} onChange={() => useGameStore.getState().toggleAutoLearn()} />
+          Auto-learn
+        </label>
+      )}
 
       <div className="coin-balance-label">Balance (in coins)</div>
 
@@ -86,7 +90,9 @@ function Sidebar() {
         </div>
       )}
 
-      <div><span className="happiness-label">Happiness: </span>{happiness.toFixed(2)}</div>
+      <div><span className="happiness-label">Happiness: </span>{happiness.toFixed(2)}
+      <span className="current-skill-label"><br></br>Affects all xp gain</span>
+      </div>
 
       {state.player.evil > 0 && <div><span className="evil-label">Evil: </span>{state.player.evil.toFixed(1)}</div>}
 

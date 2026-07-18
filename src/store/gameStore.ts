@@ -14,6 +14,7 @@ interface GameStore extends GameState {
   togglePause: () => void;
   toggleAutoPromote: () => void;
   toggleAutoLearn: () => void;
+  toggleSkipSkill: (skillId: string) => void;
   toggleTimeWarp: () => void;
   purchaseTownBuilding: (buildingId: string) => void;
   doRebirthOne: () => void;
@@ -73,6 +74,12 @@ export const useGameStore = create<GameStore>()((set, get) => ({
 
   toggleAutoLearn: () => {
     set(s => ({ player: { ...s.player, autoLearn: !s.player.autoLearn } }));
+  },
+  toggleSkipSkill: (skillId: string) => {
+    set(s => {
+      const has = s.player.skippedSkills.includes(skillId);
+      return { player: { ...s.player, skippedSkills: has ? s.player.skippedSkills.filter(id => id !== skillId) : [...s.player.skippedSkills, skillId] } };
+    });
   },
 
   toggleTimeWarp: () => {

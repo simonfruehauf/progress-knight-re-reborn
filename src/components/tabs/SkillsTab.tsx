@@ -6,6 +6,7 @@ import { HEADER_ROW_COLORS } from '../../engine/data/headerRowColors';
 import { getSkillXpGain } from '../../engine/game';
 import { isSkillUnlocked, getRequirementDescription, anyRequirementMet, checkRequirement } from '../../engine/requirements';
 import { SKILL_REQUIREMENTS } from '../../engine/data/requirements';
+import { SKILL_TOOLTIPS } from '../../engine/data/tooltips';
 
 function SkillsTab() {
   const state = useGameStore();
@@ -25,6 +26,8 @@ function SkillsTab() {
             <th style={{ width: 100, textAlign: 'left' }}>Effect</th>
             <th style={{ width: 80, textAlign: 'left' }}>Xp/day</th>
             <th style={{ width: 80, textAlign: 'left' }}>Xp left</th>
+            <th style={{ width: 80, textAlign: 'left' }}>Max level</th>
+            <th style={{ width: 50, textAlign: 'left' }}>Skip</th>
           </tr>,
           ...unlocked.map(skillDef => {
             const task = state.skills[skillDef.id];
@@ -40,6 +43,9 @@ function SkillsTab() {
                 xpGain={getSkillXpGain(state, skillDef.id)}
                 isCurrent={state.player.currentSkillId === skillDef.id}
                 onClick={() => useGameStore.getState().setSkill(skillDef.id)}
+                tooltipText={SKILL_TOOLTIPS[skillDef.id]}
+                skipChecked={state.player.skippedSkills.includes(skillDef.id)}
+                onToggleSkip={() => useGameStore.getState().toggleSkipSkill(skillDef.id)}
               />
             );
           }),
@@ -48,7 +54,7 @@ function SkillsTab() {
             if (unmetReqs.length === 0) return null;
             return (
               <tr key={`req-${nextLocked.id}`} className="required-row">
-                <td colSpan={5}>
+                <td colSpan={7}>
                   Required: {unmetReqs.map(r => getRequirementDescription(state, r)).join(', ')}
                 </td>
               </tr>

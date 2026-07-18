@@ -2,6 +2,7 @@ import { useGameStore } from '../../store/gameStore';
 import CoinDisplay from '../common/CoinDisplay';
 import { ITEMS } from '../../engine/data/items';
 import { isItemUnlocked } from '../../engine/requirements';
+import { ITEM_TOOLTIPS } from '../../engine/data/tooltips';
 
 const PROPERTIES = ITEMS.filter(i => i.category === 'Property');
 const MISC = ITEMS.filter(i => i.category === 'Misc');
@@ -27,9 +28,12 @@ function ShopTab() {
             return (
               <tr key={item.id}>
                 <td>
-                  <button className="item-button" onClick={() => useGameStore.getState().setProperty(item.id)}>
-                    {item.name}
-                  </button>
+                  <div className="tooltip" style={{ display: 'inline-block' }}>
+                    <button className="item-button" onClick={() => useGameStore.getState().setProperty(item.id)}>
+                      {item.name}
+                    </button>
+                    <span className="tooltipText">{ITEM_TOOLTIPS[item.id]}</span>
+                  </div>
                 </td>
                 <td>
                   <span style={{ color: isActive ? 'green' : 'gray', fontSize: 24 }}>●</span>
@@ -58,9 +62,12 @@ function ShopTab() {
             return (
               <tr key={item.id}>
                 <td>
-                  <button className="item-button" onClick={() => useGameStore.getState().toggleMisc(item.id)}>
-                    {item.name}
-                  </button>
+                  <div className="tooltip" style={{ display: 'inline-block' }}>
+                    <button className="item-button" onClick={() => useGameStore.getState().toggleMisc(item.id)}>
+                      {item.name}
+                    </button>
+                    <span className="tooltipText">{ITEM_TOOLTIPS[item.id]}</span>
+                  </div>
                 </td>
                 <td>
                   <span style={{ color: isActive ? 'green' : 'gray', fontSize: 24 }}>●</span>

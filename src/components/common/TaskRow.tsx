@@ -13,18 +13,30 @@ interface TaskRowProps {
   xpGain?: number;
   isCurrent: boolean;
   onClick?: () => void;
-  skipSkillColumn?: boolean;
+  tooltipText?: string;
+  skipChecked?: boolean;
+  onToggleSkip?: () => void;
 }
 
-function TaskRow({ name, task, baseMaxXp, income, effectDescription, xpGain, isCurrent, onClick, skipSkillColumn }: TaskRowProps) {
+function TaskRow({ name, task, baseMaxXp, income, effectDescription, xpGain, isCurrent, onClick, tooltipText, skipChecked, onToggleSkip }: TaskRowProps) {
   const maxXp = getMaxXp(baseMaxXp, task.level);
   return (
     <tr>
       <td>
-        <div className={`progress-bar ${isCurrent ? 'current' : ''}`} onClick={onClick} style={{ cursor: 'pointer', width: 200 }}>
-          <ProgressBar current={task.xp} max={maxXp} color={isCurrent ? 'orange' : undefined} />
-          <span className="name" style={{ position: 'absolute', top: 0, padding: 5, color: 'white' }}>{name}</span>
-        </div>
+        {tooltipText ? (
+          <div className="tooltip">
+            <div className={`progress-bar tooltip ${isCurrent ? 'current' : ''}`} onClick={onClick} style={{ cursor: 'pointer', width: 200 }}>
+              <ProgressBar current={task.xp} max={maxXp} color={isCurrent ? 'orange' : undefined} />
+              <span className="name" style={{ position: 'absolute', top: 0, padding: 5, color: 'white' }}>{name}</span>
+            </div>
+            <span className="tooltipText">{tooltipText}</span>
+          </div>
+        ) : (
+          <div className={`progress-bar ${isCurrent ? 'current' : ''}`} onClick={onClick} style={{ cursor: 'pointer', width: 200 }}>
+            <ProgressBar current={task.xp} max={maxXp} color={isCurrent ? 'orange' : undefined} />
+            <span className="name" style={{ position: 'absolute', top: 0, padding: 5, color: 'white' }}>{name}</span>
+          </div>
+        )}
       </td>
       <td>{task.level}</td>
       <td>
@@ -32,7 +44,10 @@ function TaskRow({ name, task, baseMaxXp, income, effectDescription, xpGain, isC
       </td>
       <td>{xpGain !== undefined ? formatNumber(xpGain) : '-'}</td>
       <td>{formatNumber(Math.round(maxXp - task.xp))}</td>
-      {skipSkillColumn && <td></td>}
+      <td>{task.maxLevel}</td>
+      {onToggleSkip && (
+        <td><input type="checkbox" checked={!!skipChecked} onChange={onToggleSkip} /></td>
+      )}
     </tr>
   );
 }

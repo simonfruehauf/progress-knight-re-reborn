@@ -7,7 +7,7 @@ export type Requirement = TaskLevelReq | CoinReq | AgeReq | EvilReq;
 export interface JobDef { id: string; name: string; maxXp: number; income: number; category: string; }
 export interface SkillDef { id: string; name: string; maxXp: number; effect: number; description: string; category: string; }
 export interface ItemDef { id: string; name: string; category: 'Property' | 'Misc'; expense: number; effect: number; description?: string; }
-export interface TownBuildingDef { id: string; name: string; baseCost: number; costGrowthFactor: number; role: string[]; income?: number; xpMultiplier?: number; targets?: string[]; incomeMultiplier?: number; }
+export interface TownBuildingDef { id: string; name: string; baseCost: number; costGrowthFactor: number; role: string[]; income?: number; xpMultiplier?: number; targets?: string[]; incomeMultiplier?: number; description?: string; }
 
 export interface TaskState { level: number; maxLevel: number; xp: number; }
 export interface PlayerState {
@@ -16,6 +16,7 @@ export interface PlayerState {
   currentPropertyId: string; currentMiscIds: string[];
   paused: boolean; autoPromote: boolean; autoLearn: boolean; timeWarp: boolean;
   rebirthOneCount: number; rebirthTwoCount: number;
+  skippedSkills: string[];
 }
 export interface TownBuildingState { count: number; costOfNext: number; }
 export interface GameState {

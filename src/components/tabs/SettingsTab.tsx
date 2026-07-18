@@ -44,6 +44,11 @@ function SettingsTab() {
           Hard reset
         </button>
       </div>
+
+      <div>
+        <h2>Join the discord community!</h2>
+        <a href="https://discord.gg/fTRS4pHGka" target="_blank">Discord</a>
+      </div>
     </div>
   );
 }

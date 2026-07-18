@@ -40,6 +40,7 @@ export function createInitialGameState(): GameState {
       timeWarp: true,
       rebirthOneCount: 0,
       rebirthTwoCount: 0,
+      skippedSkills: [],
     },
     jobs,
     skills,

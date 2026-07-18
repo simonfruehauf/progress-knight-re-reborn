@@ -102,6 +102,8 @@ export function getJobXpGain(state: GameState, jobId: string): number {
   if (jobId === 'chairman' || jobId === 'illustriousChairman') {
     const magicalEngineering = state.skills['magicalEngineering'];
     mult *= 1 + (magicalEngineering?.level ?? 0) * SKILL_MAP['magicalEngineering'].effect;
+    const scalesOfThought = state.skills['scalesOfThought'];
+    mult *= 1 + (scalesOfThought?.level ?? 0) * SKILL_MAP['scalesOfThought'].effect;
     const magicalBiology = state.skills['magicalBiology'];
     mult *= 1 + (magicalBiology?.level ?? 0) * SKILL_MAP['magicalBiology'].effect;
   }
@@ -150,6 +152,10 @@ export function getSkillXpGain(state: GameState, skillId: string): number {
     if (state.player.currentMiscIds.includes('sapphireCharm')) {
       mult *= ITEM_MAP['sapphireCharm'].effect;
     }
+    const novelKnowledge = state.skills['novelKnowledge'];
+    mult *= 1 + (novelKnowledge?.level ?? 0) * SKILL_MAP['novelKnowledge'].effect;
+    const unusualInsight = state.skills['unusualInsight'];
+    mult *= 1 + (unusualInsight?.level ?? 0) * SKILL_MAP['unusualInsight'].effect;
     const scalesOfThought = state.skills['scalesOfThought'];
     mult *= 1 + (scalesOfThought?.level ?? 0) * SKILL_MAP['scalesOfThought'].effect;
   }
@@ -216,6 +222,10 @@ export function getJobIncome(state: GameState, jobId: string): number {
       mult *= ITEM_MAP['breechBellows'].effect;
     }
   }
+  if (jobId === 'chairman' || jobId === 'illustriousChairman') {
+    const magicalEngineering = state.skills['magicalEngineering'];
+    mult *= 1 + (magicalEngineering?.level ?? 0) * SKILL_MAP['magicalEngineering'].effect;
+  }
 
   return jobDef.income * mult;
 }
@@ -253,6 +263,7 @@ export function gameTick(state: GameState): GameState {
       const skillState = newState.skills[skillId];
       if (!skillState) continue;
       if (!isSkillUnlocked(newState, skillId)) continue;
+      if (newState.player.skippedSkills.includes(skillId)) continue;
       const xpGain = getSkillXpGain(newState, skillId);
       if (xpGain <= 0) continue;
       const maxXp = getMaxXp(SKILL_MAP[skillId].maxXp, skillState.level);

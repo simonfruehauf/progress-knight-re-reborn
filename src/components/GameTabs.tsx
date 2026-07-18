@@ -16,7 +16,7 @@ function GameTabs() {
   const TABS = [
     { id: 'jobs', label: 'Jobs', component: JobsTab, show: true },
     { id: 'skills', label: 'Skills', component: SkillsTab, show: true },
-    { id: 'shop', label: 'Shop', component: ShopTab, show: true },
+    { id: 'shop', label: 'Shop', component: ShopTab, show: age >= 25 || state.player.coins >= 1500 },
     { id: 'town', label: 'Town', component: TownTab, show: true },
     { id: 'rebirth', label: 'Amulet', component: AmuletTab, show: age >= 25 },
     { id: 'settings', label: 'Settings', component: SettingsTab, show: true },

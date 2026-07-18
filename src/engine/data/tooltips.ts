@@ -1,4 +1,4 @@
-export const TOOLTIPS: Record<string, string> = {
+const _TOOLTIPS: Record<string, string> = {
   // Common Work
   beggar: "Struggle day and night for a couple of copper coins. It feels like you are at the brink of death each day.",
   farmer: "Plow the fields and grow the crops. It's not much but it's honest work.",
@@ -116,3 +116,36 @@ export const TOOLTIPS: Record<string, string> = {
   oxDrivenPlow: "With your newfound land and tools, you've become relatively wealthy. For a peasant farmer, at least. Tale of your achievements has reached the ears of the local lord, who has granted permission for you to rent one of his oxen plow teams and associated gear.",
   livestockDerivedFertilizer: "It's poo.",
 };
+
+const JOB_IDS = [
+  'beggar', 'farmer', 'fisherman', 'miner', 'blacksmith', 'merchant',
+  'squire', 'footman', 'veteranFootman', 'knight', 'veteranKnight', 'eliteKnight', 'holyKnight', 'legendaryKnight',
+  'student', 'apprenticeMage', 'mage', 'wizard', 'masterWizard', 'chairman', 'illustriousChairman',
+  'juniorCaretaker', 'leadCaretaker', 'freshman', 'sophomore', 'junior', 'senior', 'probation',
+  'baronet', 'baron', 'viceCount', 'count', 'duke', 'grandDuke', 'archDuke', 'lord', 'highLord', 'king', 'highKing', 'emperorOfMankind',
+];
+
+const SKILL_IDS = [
+  'concentration', 'productivity', 'bargaining', 'meditation',
+  'strength', 'battleTactics', 'muscleMemory',
+  'manaControl', 'immortality', 'timeWarping', 'superImmortality',
+  'novelKnowledge', 'unusualInsight', 'tradePsychology', 'flow', 'magicalEngineering', 'scalesOfThought', 'magicalBiology',
+  'darkInfluence', 'evilControl', 'intimidation', 'demonTraining', 'bloodMeditation', 'demonsWealth',
+];
+
+const ITEM_IDS = [
+  'homeless', 'tent', 'woodenHut', 'cottage', 'house', 'largeHouse', 'smallManor', 'smallPalace', 'grandPalace',
+  'ragClothing', 'book', 'basicFarmTools', 'cheapFishingRod', 'dumbbells', 'minersLantern', 'crappyAnvil', 'breechBellows',
+  'packHorse', 'smallShop', 'weaponOutlet', 'personalSquire', 'steelLongsword', 'butler', 'sapphireCharm', 'studyDesk',
+  'library', 'smallField', 'oxDrivenPlow', 'livestockDerivedFertilizer',
+];
+
+function pick(obj: Record<string, string>, keys: string[]): Record<string, string> {
+  const result: Record<string, string> = {};
+  keys.forEach(k => { if (obj[k] !== undefined) result[k] = obj[k]; });
+  return result;
+}
+
+export const JOB_TOOLTIPS = pick(_TOOLTIPS, JOB_IDS);
+export const SKILL_TOOLTIPS = pick(_TOOLTIPS, SKILL_IDS);
+export const ITEM_TOOLTIPS = pick(_TOOLTIPS, ITEM_IDS);
