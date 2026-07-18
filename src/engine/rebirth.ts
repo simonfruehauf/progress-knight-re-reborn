@@ -49,7 +49,7 @@ export function createInitialGameState(): GameState {
 }
 
 export function performRebirthOne(state: GameState): GameState {
-  const newState = JSON.parse(JSON.stringify(state)) as GameState;
+  const newState = structuredClone(state);
   newState.player.rebirthOneCount += 1;
   for (const job of Object.values(newState.jobs)) {
     if (job.level > job.maxLevel) {

@@ -231,7 +231,7 @@ export function getJobIncome(state: GameState, jobId: string): number {
 }
 
 export function increaseDays(state: GameState): GameState {
-  const newState = JSON.parse(JSON.stringify(state)) as GameState;
+  const newState = structuredClone(state);
   const ageIncrease = applySpeed(1, newState);
   newState.player.age += ageIncrease;
   newState.player.day = Math.floor(newState.player.age % 365);
