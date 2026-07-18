@@ -19,7 +19,7 @@ interface GameStore extends GameState {
   purchaseTownBuilding: (buildingId: string) => void;
   doRebirthOne: () => void;
   doRebirthTwo: () => void;
-  importSaveData: (data: string) => boolean;
+  importSaveData: (data: string) => string | null;
   exportSaveData: () => string;
   resetGame: () => void;
   saveGame: () => void;
@@ -113,13 +113,21 @@ export const useGameStore = create<GameStore>()((set, get) => ({
   },
 
   importSaveData: (data: string) => {
-    const loaded = importSave(data);
-    if (loaded) {
+    try {
+      const parsed = JSON.parse(atob(data));
+      if (!parsed || typeof parsed !== 'object') {
+        return 'Invalid save data format';
+      }
+      const loaded = importSave(data);
+      if (!loaded) {
+        return 'Could not parse save data — it may be from an incompatible version';
+      }
       set(loaded);
       saveToStorage(loaded);
-      return true;
+      return null;
+    } catch {
+      return 'Invalid base64-encoded save string';
     }
-    return false;
   },
 
   exportSaveData: () => {
