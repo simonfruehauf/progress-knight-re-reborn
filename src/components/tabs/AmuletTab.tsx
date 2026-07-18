@@ -3,8 +3,7 @@ import { getEvilGain } from '../../engine/game';
 import { daysToYears } from '../../engine/requirements';
 
 function AmuletTab() {
-  const state = useGameStore();
-  const age = daysToYears(state.player.age);
+  const age = useGameStore(s => daysToYears(s.player.age));
 
   return (
     <div>
@@ -41,7 +40,7 @@ function AmuletTab() {
             The voice returns, stronger now: <em>"Embrace the darkness. Let the evil flow through you."</em>
             You feel the temptation of limitless power coursing through your veins.
           </p>
-          <div>Evil gain multiplier: {getEvilGain(state).toFixed(2)}x</div>
+          <div>Evil gain multiplier: {getEvilGain(useGameStore.getState()).toFixed(2)}x</div>
           <button className="button" onClick={() => useGameStore.getState().doRebirthTwo()}>
             Embrace evil
           </button>

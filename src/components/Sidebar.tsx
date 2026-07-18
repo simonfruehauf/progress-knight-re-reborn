@@ -10,32 +10,34 @@ import CoinDisplay from './common/CoinDisplay';
 import ProgressBar from './common/ProgressBar';
 
 function Sidebar() {
-  const state = useGameStore();
-  const ageYears = daysToYears(state.player.age);
-  const day = Math.floor(state.player.age - ageYears * 365);
-  const lifespanYears = daysToYears(state.player.lifespan);
+  const player = useGameStore(s => s.player);
+  const jobs = useGameStore(s => s.jobs);
+  const skills = useGameStore(s => s.skills);
+  const ageYears = daysToYears(player.age);
+  const day = Math.floor(player.age - ageYears * 365);
+  const lifespanYears = daysToYears(player.lifespan);
 
-  const jobIncome = state.player.currentJobId ? getJobIncome(state, state.player.currentJobId) : 0;
-  const townIncome = calculateTownIncome(state);
+  const jobIncome = player.currentJobId ? getJobIncome(useGameStore.getState(), player.currentJobId) : 0;
+  const townIncome = calculateTownIncome(useGameStore.getState());
   const totalIncome = jobIncome + townIncome;
-  const totalExpense = getTotalExpense(state) * getBargainingEffect(state) * getIntimidationEffect(state);
+  const totalExpense = getTotalExpense(useGameStore.getState()) * getBargainingEffect(useGameStore.getState()) * getIntimidationEffect(useGameStore.getState());
   const net = Math.abs(totalIncome - totalExpense);
   const netSign = totalIncome >= totalExpense ? '+' : '-';
 
-  const currentJobId = state.player.currentJobId;
-  const jobState = currentJobId ? state.jobs[currentJobId] : null;
+  const currentJobId = player.currentJobId;
+  const jobState = currentJobId ? jobs[currentJobId] : null;
   const jobMaxXp = currentJobId && jobState ? getMaxXp(JOB_MAP[currentJobId].maxXp, jobState.level) : 0;
 
-  const currentSkillId = state.player.currentSkillId;
-  const skillState = currentSkillId ? state.skills[currentSkillId] : null;
+  const currentSkillId = player.currentSkillId;
+  const skillState = currentSkillId ? skills[currentSkillId] : null;
   const skillMaxXp = currentSkillId && skillState ? getMaxXp(SKILL_MAP[currentSkillId].maxXp, skillState.level) : 0;
 
-  const happiness = getHappiness(state);
-  const timeMultiplier = getAllTimeMultipliers(state);
+  const happiness = getHappiness(useGameStore.getState());
+  const timeMultiplier = getAllTimeMultipliers(useGameStore.getState());
 
   return (
     <div className="sidebar">
-      {state.player.age >= state.player.lifespan && (
+      {player.age >= player.lifespan && (
         <div>
           <div className="death-text">Age has caught up to you</div>
           <div className="death-subtitle">Your age has met your lifespan, use the amulet to rebirth before you pass away</div>
@@ -45,19 +47,19 @@ function Sidebar() {
       <div>Lifespan: {lifespanYears}y</div>
 
       <button className="button" onClick={() => useGameStore.getState().togglePause()}>
-        {state.player.paused ? 'Play' : 'Pause'}
+        {player.paused ? 'Play' : 'Pause'}
       </button>
 
       {ageYears >= 20 && (
         <label>
-          <input type="checkbox" checked={state.player.autoPromote} onChange={() => useGameStore.getState().toggleAutoPromote()} />
+          <input type="checkbox" checked={player.autoPromote} onChange={() => useGameStore.getState().toggleAutoPromote()} />
           Auto-promote
         </label>
       )}
 
       {ageYears >= 20 && (
         <label>
-          <input type="checkbox" checked={state.player.autoLearn} onChange={() => useGameStore.getState().toggleAutoLearn()} />
+          <input type="checkbox" checked={player.autoLearn} onChange={() => useGameStore.getState().toggleAutoLearn()} />
           Auto-learn
         </label>
       )}
@@ -94,13 +96,13 @@ function Sidebar() {
       <span className="current-skill-label"><br></br>Affects all xp gain</span>
       </div>
 
-      {state.player.evil > 0 && <div><span className="evil-label">Evil: </span>{state.player.evil.toFixed(1)}</div>}
+      {player.evil > 0 && <div><span className="evil-label">Evil: </span>{player.evil.toFixed(1)}</div>}
 
-      {isSkillUnlocked(state, 'timeWarping') && (
+      {isSkillUnlocked(useGameStore.getState(), 'timeWarping') && (
         <div>
           <div><span className="timewarp-label">Time warping: </span>{timeMultiplier.toFixed(2)}x</div>
           <button className="button" onClick={() => useGameStore.getState().toggleTimeWarp()} style={{ marginTop: 5, width: 150 }}>
-            {state.player.timeWarp ? 'Disable warp' : 'Enable warp'}
+            {player.timeWarp ? 'Disable warp' : 'Enable warp'}
           </button>
         </div>
       )}

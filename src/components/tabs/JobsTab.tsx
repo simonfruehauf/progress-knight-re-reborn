@@ -9,16 +9,17 @@ import { JOB_REQUIREMENTS } from '../../engine/data/requirements';
 import { JOB_TOOLTIPS } from '../../engine/data/tooltips';
 
 function JobsTab() {
-  const state = useGameStore();
+  const jobs = useGameStore(s => s.jobs);
+  const currentJobId = useGameStore(s => s.player.currentJobId);
 
   return (
     <table className="w3-table w3-bordered">
       <tbody>
         {JOB_CATEGORIES.flatMap(cat => {
-          const unlocked = JOBS.filter(j => j.category === cat && isJobUnlocked(state, j.id));
-          const locked = JOBS.filter(j => j.category === cat && !isJobUnlocked(state, j.id));
+          const unlocked = JOBS.filter(j => j.category === cat && isJobUnlocked(useGameStore.getState(), j.id));
+          const locked = JOBS.filter(j => j.category === cat && !isJobUnlocked(useGameStore.getState(), j.id));
           const nextLocked = locked[0];
-          if (unlocked.length === 0 && (!nextLocked || !anyRequirementMet(state, JOB_REQUIREMENTS[nextLocked.id] ?? []))) return [];
+          if (unlocked.length === 0 && (!nextLocked || !anyRequirementMet(useGameStore.getState(), JOB_REQUIREMENTS[nextLocked.id] ?? []))) return [];
           return [
           <tr key={`hdr-${cat}`} style={{ backgroundColor: HEADER_ROW_COLORS[cat], color: 'white', fontWeight: 'bold' }}>
             <th style={{ width: 200, textAlign: 'left' }}>{cat}</th>
@@ -29,7 +30,7 @@ function JobsTab() {
             <th style={{ width: 80, textAlign: 'left' }}>Max level</th>
           </tr>,
           ...unlocked.map(jobDef => {
-            const task = state.jobs[jobDef.id];
+            const task = jobs[jobDef.id];
             if (!task) return null;
             return (
               <TaskRow
@@ -37,21 +38,21 @@ function JobsTab() {
                 name={jobDef.name}
                 task={task}
                 baseMaxXp={jobDef.maxXp}
-                income={getJobIncome(state, jobDef.id)}
-                xpGain={getJobXpGain(state, jobDef.id)}
-                isCurrent={state.player.currentJobId === jobDef.id}
+                income={getJobIncome(useGameStore.getState(), jobDef.id)}
+                xpGain={getJobXpGain(useGameStore.getState(), jobDef.id)}
+                isCurrent={currentJobId === jobDef.id}
                 onClick={() => useGameStore.getState().setJob(jobDef.id)}
                 tooltipText={JOB_TOOLTIPS[jobDef.id]}
               />
             );
           }),
           nextLocked && (() => {
-            const unmetReqs = (JOB_REQUIREMENTS[nextLocked.id] ?? []).filter(r => !checkRequirement(state, r));
+            const unmetReqs = (JOB_REQUIREMENTS[nextLocked.id] ?? []).filter(r => !checkRequirement(useGameStore.getState(), r));
             if (unmetReqs.length === 0) return null;
             return (
               <tr key={`req-${nextLocked.id}`} className="required-row">
                 <td colSpan={6}>
-                  Required: {unmetReqs.map(r => getRequirementDescription(state, r)).join(', ')}
+                  Required: {unmetReqs.map(r => getRequirementDescription(useGameStore.getState(), r)).join(', ')}
                 </td>
               </tr>
             );

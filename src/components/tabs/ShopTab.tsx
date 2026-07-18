@@ -8,7 +8,8 @@ const PROPERTIES = ITEMS.filter(i => i.category === 'Property');
 const MISC = ITEMS.filter(i => i.category === 'Misc');
 
 function ShopTab() {
-  const state = useGameStore();
+  const currentPropertyId = useGameStore(s => s.player.currentPropertyId);
+  const currentMiscIds = useGameStore(s => s.player.currentMiscIds);
 
   return (
     <div>
@@ -23,8 +24,8 @@ function ShopTab() {
           </tr>
         </thead>
         <tbody>
-          {PROPERTIES.filter(i => isItemUnlocked(state, i.id)).map(item => {
-            const isActive = state.player.currentPropertyId === item.id;
+          {PROPERTIES.filter(i => isItemUnlocked(useGameStore.getState(), i.id)).map(item => {
+            const isActive = currentPropertyId === item.id;
             return (
               <tr key={item.id}>
                 <td>
@@ -57,8 +58,8 @@ function ShopTab() {
           </tr>
         </thead>
         <tbody>
-          {MISC.filter(i => isItemUnlocked(state, i.id)).map(item => {
-            const isActive = state.player.currentMiscIds.includes(item.id);
+          {MISC.filter(i => isItemUnlocked(useGameStore.getState(), i.id)).map(item => {
+            const isActive = currentMiscIds.includes(item.id);
             return (
               <tr key={item.id}>
                 <td>

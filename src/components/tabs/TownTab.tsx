@@ -5,8 +5,8 @@ import { TownBuildingDef } from '../../engine/types';
 import { calculateTownIncome } from '../../engine/town';
 
 function TownTab() {
-  const state = useGameStore();
-  const townIncome = calculateTownIncome(state);
+  const town = useGameStore(s => s.town);
+  const townIncome = calculateTownIncome(useGameStore.getState());
 
   const getEffectText = (building: TownBuildingDef) => {
     if (building.income) return `Additional daily income: ${building.income} coppers`;
@@ -23,7 +23,7 @@ function TownTab() {
       </div>
       <div style={{ marginTop: 16 }}>
         {TOWN_BUILDINGS.map(building => {
-          const bs = state.town[building.id];
+          const bs = town[building.id];
           if (!bs) return null;
           const isSecret = building.id === 'secret';
           return (

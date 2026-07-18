@@ -9,16 +9,18 @@ import { SKILL_REQUIREMENTS } from '../../engine/data/requirements';
 import { SKILL_TOOLTIPS } from '../../engine/data/tooltips';
 
 function SkillsTab() {
-  const state = useGameStore();
+  const skills = useGameStore(s => s.skills);
+  const currentSkillId = useGameStore(s => s.player.currentSkillId);
+  const skippedSkills = useGameStore(s => s.player.skippedSkills);
 
   return (
     <table className="w3-table w3-bordered">
       <tbody>
         {SKILL_CATEGORIES.flatMap(cat => {
-          const unlocked = SKILLS.filter(s => s.category === cat && isSkillUnlocked(state, s.id));
-          const locked = SKILLS.filter(s => s.category === cat && !isSkillUnlocked(state, s.id));
+          const unlocked = SKILLS.filter(s => s.category === cat && isSkillUnlocked(useGameStore.getState(), s.id));
+          const locked = SKILLS.filter(s => s.category === cat && !isSkillUnlocked(useGameStore.getState(), s.id));
           const nextLocked = locked[0];
-          if (unlocked.length === 0 && (!nextLocked || !anyRequirementMet(state, SKILL_REQUIREMENTS[nextLocked.id] ?? []))) return [];
+          if (unlocked.length === 0 && (!nextLocked || !anyRequirementMet(useGameStore.getState(), SKILL_REQUIREMENTS[nextLocked.id] ?? []))) return [];
           return [
           <tr key={`hdr-${cat}`} style={{ backgroundColor: HEADER_ROW_COLORS[cat], color: 'white', fontWeight: 'bold' }}>
             <th style={{ width: 200, textAlign: 'left' }}>{cat}</th>
@@ -30,7 +32,7 @@ function SkillsTab() {
             <th style={{ width: 50, textAlign: 'left' }}>Skip</th>
           </tr>,
           ...unlocked.map(skillDef => {
-            const task = state.skills[skillDef.id];
+            const task = skills[skillDef.id];
             if (!task) return null;
             const effectDescription = `x${(1 + task.level * skillDef.effect).toFixed(2)} ${skillDef.description}`;
             return (
@@ -40,22 +42,22 @@ function SkillsTab() {
                 task={task}
                 baseMaxXp={skillDef.maxXp}
                 effectDescription={effectDescription}
-                xpGain={getSkillXpGain(state, skillDef.id)}
-                isCurrent={state.player.currentSkillId === skillDef.id}
+                xpGain={getSkillXpGain(useGameStore.getState(), skillDef.id)}
+                isCurrent={currentSkillId === skillDef.id}
                 onClick={() => useGameStore.getState().setSkill(skillDef.id)}
                 tooltipText={SKILL_TOOLTIPS[skillDef.id]}
-                skipChecked={state.player.skippedSkills.includes(skillDef.id)}
+                skipChecked={skippedSkills.includes(skillDef.id)}
                 onToggleSkip={() => useGameStore.getState().toggleSkipSkill(skillDef.id)}
               />
             );
           }),
           nextLocked && (() => {
-            const unmetReqs = (SKILL_REQUIREMENTS[nextLocked.id] ?? []).filter(r => !checkRequirement(state, r));
+            const unmetReqs = (SKILL_REQUIREMENTS[nextLocked.id] ?? []).filter(r => !checkRequirement(useGameStore.getState(), r));
             if (unmetReqs.length === 0) return null;
             return (
               <tr key={`req-${nextLocked.id}`} className="required-row">
                 <td colSpan={7}>
-                  Required: {unmetReqs.map(r => getRequirementDescription(state, r)).join(', ')}
+                  Required: {unmetReqs.map(r => getRequirementDescription(useGameStore.getState(), r)).join(', ')}
                 </td>
               </tr>
             );
