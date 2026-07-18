@@ -92,7 +92,14 @@ export const useGameStore = create<GameStore>()((set, get) => ({
       if (!building || s.player.coins < building.costOfNext) return s;
       const def = TOWN_BUILDING_MAP[buildingId];
       return {
-        player: { ...s.player, coins: s.player.coins - building.costOfNext },
+        player: {
+          ...s.player,
+          coins: s.player.coins - building.costOfNext,
+          stats: {
+            ...s.player.stats,
+            totalTownBuildingsPurchased: s.player.stats.totalTownBuildingsPurchased + 1,
+          },
+        },
         town: {
           ...s.town,
           [buildingId]: {
