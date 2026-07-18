@@ -6,6 +6,7 @@ import SkillsTab from './tabs/SkillsTab';
 import ShopTab from './tabs/ShopTab';
 import TownTab from './tabs/TownTab';
 import AmuletTab from './tabs/AmuletTab';
+import AchievementsTab from './tabs/AchievementsTab';
 import SettingsTab from './tabs/SettingsTab';
 
 function GameTabs() {
@@ -19,6 +20,7 @@ function GameTabs() {
     { id: 'shop', label: 'Shop', component: ShopTab, show: age >= 25 || coins >= 1500 },
     { id: 'town', label: 'Town', component: TownTab, show: true },
     { id: 'rebirth', label: 'Amulet', component: AmuletTab, show: age >= 25 },
+    { id: 'achievements', label: 'Achievements', component: AchievementsTab, show: true },
     { id: 'settings', label: 'Settings', component: SettingsTab, show: true },
   ] as const;
 
