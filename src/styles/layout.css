@@ -1,0 +1,45 @@
+.app-container {
+  width: 1220px;
+  margin: 0 auto;
+  padding: 16px;
+}
+
+.app-container h1 {
+  margin-bottom: 16px;
+}
+
+.main-layout {
+  display: flex;
+  gap: 16px;
+}
+
+.panel {
+  background-color: white;
+}
+
+.sidebar {
+  width: 300px;
+  padding: 16px;
+  background-color: white;
+  flex-shrink: 0;
+}
+
+.sidebar > div {
+  margin-bottom: 8px;
+}
+
+.sidebar label {
+  display: block;
+  margin-bottom: 4px;
+}
+
+.tab-container {
+  flex: 1;
+  min-width: 0;
+}
+
+.tab-bar {
+  display: flex;
+  gap: 0;
+  background-color: white;
+}

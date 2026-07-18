@@ -2,7 +2,10 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import App from './components/App';
 import ErrorBoundary from './components/common/ErrorBoundary';
-import './styles/main.css';
+import './styles/reset.css';
+import './styles/layout.css';
+import './styles/components.css';
+import './styles/theme.css';
 
 const savedTheme = localStorage.getItem('darkMode');
 if (savedTheme === 'true') {
