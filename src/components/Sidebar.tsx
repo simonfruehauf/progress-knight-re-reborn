@@ -64,7 +64,8 @@ function Sidebar() {
         </label>
       )}
 
-      <div className="coin-balance-label">Balance (in coins): <CoinDisplay coins={player.coins} /></div>
+      <div><CoinDisplay coins={player.coins} /></div>
+      <div className="coin-balance-label">Balance (in coins)</div>
 
       <ul className="balance-list">
         <li><span className="net-color">Net/day: </span>{netSign}<CoinDisplay coins={net} /></li>
