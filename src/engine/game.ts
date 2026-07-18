@@ -10,6 +10,7 @@ import {
 import { calculateTownIncome } from './town';
 import { getTotalExpense } from './economy';
 import { isJobUnlocked, isSkillUnlocked } from './requirements';
+import { checkAchievements, computeAchievementBonuses } from './achievements';
 
 const UPDATE_SPEED = 20;
 const BASE_LIFESPAN = 365 * 70;
@@ -319,6 +320,14 @@ export function gameTick(state: GameState): GameState {
     newState.player.coins = 0;
     newState.player.currentPropertyId = 'homeless';
     newState.player.currentMiscIds = [];
+  }
+
+  const newlyEarned = checkAchievements(newState);
+  for (const achId of newlyEarned) {
+    newState.player.achievements[achId] = Date.now();
+  }
+  if (newlyEarned.length > 0) {
+    newState.player.achievementBonuses = computeAchievementBonuses(newState);
   }
 
   return newState;
