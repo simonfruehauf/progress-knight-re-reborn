@@ -26,7 +26,17 @@ interface GameStore extends GameState {
 }
 
 function getInitialState(): GameState {
-  return loadFromStorage() ?? createInitialGameState();
+  const saved = loadFromStorage();
+  if (!saved) return createInitialGameState();
+  return {
+    ...saved,
+    player: {
+      ...saved.player,
+      achievements: saved.player.achievements ?? {},
+      achievementBonuses: saved.player.achievementBonuses ?? {},
+      stats: saved.player.stats ?? { totalCoinsEarned: 0, timePlayedMs: 0, totalTownBuildingsPurchased: 0, highestSingleCoinBalance: 0 },
+    },
+  };
 }
 
 export const useGameStore = create<GameStore>()((set, get) => ({

@@ -1,7 +1,7 @@
 import { useGameStore } from '../../store/gameStore';
 
 function StatsTab() {
-  const stats = useGameStore(s => s.player.stats);
+  const stats = useGameStore(s => s.player.stats ?? { totalCoinsEarned: 0, timePlayedMs: 0, totalTownBuildingsPurchased: 0, highestSingleCoinBalance: 0 });
 
   const formatTime = (ms: number) => {
     const totalSeconds = Math.floor(ms / 1000);

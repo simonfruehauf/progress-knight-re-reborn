@@ -3,7 +3,7 @@ import { ACHIEVEMENTS } from '../../engine/data/achievements';
 import { computeAchievementBonuses } from '../../engine/achievements';
 
 function AchievementsTab() {
-  const achievements = useGameStore(s => s.player.achievements);
+  const achievements = useGameStore(s => s.player.achievements ?? {});
   const state = useGameStore(s => s);
   const bonuses = computeAchievementBonuses(state);
   const earnedCount = Object.values(achievements).filter(Boolean).length;

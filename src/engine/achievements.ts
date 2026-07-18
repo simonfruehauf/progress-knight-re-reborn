@@ -19,7 +19,7 @@ export function computeAchievementBonuses(state: GameState): Record<string, numb
     happinessMultiplier: 1,
     evilMultiplier: 1,
   };
-  for (const [achId, timestamp] of Object.entries(state.player.achievements)) {
+  for (const [achId, timestamp] of Object.entries(state.player.achievements ?? {})) {
     if (!timestamp) continue;
     const ach = ACHIEVEMENTS.find((a) => a.id === achId);
     if (ach) {
