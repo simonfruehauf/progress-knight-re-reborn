@@ -1,0 +1,297 @@
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font-family: Verdana, sans-serif;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+:root {
+  --bg-color: rgb(243, 243, 243);
+  --panel-bg: white;
+  --text-color: black;
+  --border-color: black;
+  --table-border: #ddd;
+}
+
+body.dark {
+  --bg-color: #1a1a2e;
+  --panel-bg: #16213e;
+  --text-color: #e0e0e0;
+  --border-color: #444;
+  --table-border: rgb(73, 73, 73);
+}
+
+body {
+  min-height: 100vh;
+  background-color: var(--bg-color);
+  color: var(--text-color);
+}
+
+body.dark .button {
+  background-color: rgb(31, 31, 31);
+  border-color: white;
+  color: white;
+}
+
+body.dark .w3-bordered tr {
+  border-bottom: 1px solid var(--table-border);
+}
+
+body.dark .item-button {
+  background-color: rgb(31, 31, 31);
+  color: white;
+}
+
+body.dark .item-button:hover {
+  background-color: rgb(82, 82, 82);
+}
+
+body.dark .tab-content {
+  background-color: var(--panel-bg);
+}
+
+.app-container {
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: 16px;
+}
+
+.app-container h1 {
+  margin-bottom: 16px;
+}
+
+.main-layout {
+  display: flex;
+  gap: 16px;
+}
+
+.sidebar {
+  width: 300px;
+  padding: 16px;
+  background-color: var(--panel-bg);
+  flex-shrink: 0;
+}
+
+.sidebar > div {
+  margin-bottom: 8px;
+}
+
+.sidebar label {
+  display: block;
+  margin-bottom: 4px;
+}
+
+.tab-container {
+  flex: 1;
+  min-width: 0;
+}
+
+.tab-bar {
+  display: flex;
+  gap: 0;
+}
+
+.tab-button {
+  width: 100px;
+  height: 40px;
+  border: 1px solid var(--border-color);
+  cursor: pointer;
+  background: var(--panel-bg);
+  color: var(--text-color);
+  font-size: 14px;
+}
+
+.tab-button.active {
+  background: #607d8b;
+  color: white;
+  border-color: #607d8b;
+}
+
+.tab-content {
+  padding: 16px;
+  background-color: var(--panel-bg);
+  border: 1px solid var(--border-color);
+  border-top: none;
+}
+
+.progress-bar {
+  position: relative;
+  background-color: rgb(12, 101, 173);
+  cursor: pointer;
+  width: 200px;
+  height: 30px;
+}
+
+.progress-fill {
+  height: 30px;
+  background-color: rgb(46, 148, 231);
+}
+
+.progress-bar.current .progress-fill {
+  background-color: orange;
+}
+
+.name {
+  position: absolute;
+  top: 0;
+  padding: 5px;
+  color: white;
+}
+
+.button {
+  border: 1px solid var(--border-color);
+  padding: 8px 16px;
+  cursor: pointer;
+  background: var(--panel-bg);
+  color: var(--text-color);
+  font-size: 14px;
+}
+
+.button:hover {
+  opacity: 0.85;
+}
+
+.item-button {
+  background-color: white;
+  text-align: center;
+  width: 200px;
+  height: 40px;
+  padding: 8px;
+  border: 1px solid var(--border-color);
+  cursor: pointer;
+  color: var(--text-color);
+  font-size: 14px;
+}
+
+.item-button:hover {
+  cursor: pointer;
+  background-color: rgb(192, 192, 192);
+}
+
+button:focus {
+  outline: none;
+}
+
+.w3-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.w3-table th {
+  font-weight: bold;
+  text-align: left;
+  padding: 8px;
+}
+
+.w3-table td {
+  padding: 8px;
+  vertical-align: middle;
+}
+
+.w3-bordered th,
+.w3-bordered td {
+  border-bottom: 1px solid var(--table-border);
+}
+
+.sidebar-element {
+  margin-bottom: 16px;
+}
+
+.coin-display span {
+  margin-right: 2px;
+}
+
+.town-building-button {
+  background-color: black;
+  color: white;
+  border-radius: 8px;
+  border: none;
+  padding: 8px 16px;
+  cursor: pointer;
+}
+
+.badge {
+  background-color: white;
+  color: black;
+  border-radius: 50%;
+  padding: 2px 6px;
+  font-size: 12px;
+  font-weight: bold;
+}
+
+.active-indicator {
+  display: inline-block;
+}
+
+.tooltip {
+  position: relative;
+  display: inline-block;
+}
+
+.tooltipText {
+  visibility: hidden;
+  width: 20vw;
+  background-color: black;
+  color: #fff;
+  text-align: center;
+  border: 3px solid rgb(92, 92, 247);
+  border-radius: 6px;
+  padding: 15px;
+  position: absolute;
+  z-index: 100;
+  top: -5px;
+  left: 105%;
+  opacity: 0;
+  transition: opacity 0.5s;
+}
+
+.tooltip:hover .tooltipText {
+  visibility: visible;
+  opacity: 0.9;
+}
+
+.town-building-button:hover .tooltip-text {
+  display: block;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  background: black;
+  color: white;
+  padding: 8px;
+  z-index: 100;
+}
+
+.inline {
+  display: inline-block;
+}
+
+.hidden {
+  display: none !important;
+}
+
+.hiddenTask {
+  display: none !important;
+}
+
+.scroll {
+  overflow-y: auto;
+}
+
+.required-row td {
+  font-style: italic;
+  opacity: 0.7;
+  padding: 4px 8px;
+}
+
+.death-text {
+  color: red;
+  font-weight: bold;
+  margin-bottom: 8px;
+}
