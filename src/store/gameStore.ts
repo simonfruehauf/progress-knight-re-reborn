@@ -45,7 +45,7 @@ export const useGameStore = create<GameStore>()((set, get) => ({
   tick: () => {
     const s = get();
     if (s.player.paused || s.player.age >= s.player.lifespan) return;
-    set(gameTick(s));
+    set(gameTick({ saveVersion: s.saveVersion, player: s.player, jobs: s.jobs, skills: s.skills, town: s.town }));
   },
 
   setJob: (jobId: string) => {
