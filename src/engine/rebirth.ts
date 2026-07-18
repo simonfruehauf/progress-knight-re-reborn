@@ -41,6 +41,8 @@ export function createInitialGameState(): GameState {
       rebirthOneCount: 0,
       rebirthTwoCount: 0,
       skippedSkills: [],
+      achievements: {},
+      achievementBonuses: {},
     },
     jobs,
     skills,

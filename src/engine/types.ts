@@ -9,6 +9,14 @@ export interface SkillDef { id: string; name: string; maxXp: number; effect: num
 export interface ItemDef { id: string; name: string; category: 'Property' | 'Misc'; expense: number; effect: number; description?: string; }
 export interface TownBuildingDef { id: string; name: string; baseCost: number; costGrowthFactor: number; role: string[]; income?: number; xpMultiplier?: number; targets?: string[]; incomeMultiplier?: number; description?: string; }
 
+export interface AchievementDef {
+  id: string;
+  name: string;
+  description: string;
+  check: (state: GameState) => boolean;
+  bonus: { type: 'xpMultiplier' | 'incomeMultiplier' | 'happinessMultiplier' | 'evilMultiplier'; value: number };
+}
+
 export interface TaskState { level: number; maxLevel: number; xp: number; }
 export interface PlayerState {
   age: number; day: number; lifespan: number; coins: number; evil: number;
@@ -17,6 +25,8 @@ export interface PlayerState {
   paused: boolean; autoPromote: boolean; autoLearn: boolean; timeWarp: boolean;
   rebirthOneCount: number; rebirthTwoCount: number;
   skippedSkills: string[];
+  achievements: Record<string, number>;
+  achievementBonuses: Record<string, number>;
 }
 export interface TownBuildingState { count: number; costOfNext: number; }
 export interface GameState {
