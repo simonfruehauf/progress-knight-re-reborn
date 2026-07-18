@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest';
 import { createInitialGameState, performRebirthOne, performRebirthTwo } from '../rebirth';
-import { GameState } from '../types';
+
 
 describe('createInitialGameState', () => {
   it('sets saveVersion to 2', () => {

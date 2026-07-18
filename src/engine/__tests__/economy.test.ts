@@ -52,12 +52,12 @@ describe('formatCoins', () => {
 
 describe('getTotalExpense', () => {
   it('returns 0 for homeless with no misc items', () => {
-    const state = { player: { currentPropertyId: 'homeless', currentMiscIds: [] } } as GameState;
+    const state = { player: { currentPropertyId: 'homeless', currentMiscIds: [] } } as unknown as GameState;
     expect(getTotalExpense(state)).toBe(0);
   });
 
   it('sums property and misc expenses', () => {
-    const state = { player: { currentPropertyId: 'tent', currentMiscIds: ['ragClothing'] } } as GameState;
+    const state = { player: { currentPropertyId: 'tent', currentMiscIds: ['ragClothing'] } } as unknown as GameState;
     expect(getTotalExpense(state)).toBe(18);
   });
 });
