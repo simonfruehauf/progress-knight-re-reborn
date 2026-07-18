@@ -5,7 +5,8 @@ export function useGameLoop() {
   const workerRef = useRef<Worker | null>(null);
 
   useEffect(() => {
-    workerRef.current = new Worker('/ticker.worker.js');
+    const worker = new Worker(new URL('../workers/ticker.ts', import.meta.url), { type: 'module' });
+    workerRef.current = worker;
 
     workerRef.current.onmessage = () => {
       useGameStore.getState().tick();
