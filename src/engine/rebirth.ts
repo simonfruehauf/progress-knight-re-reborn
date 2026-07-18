@@ -43,6 +43,12 @@ export function createInitialGameState(): GameState {
       skippedSkills: [],
       achievements: {},
       achievementBonuses: {},
+      stats: {
+        totalCoinsEarned: 0,
+        timePlayedMs: 0,
+        totalTownBuildingsPurchased: 0,
+        highestSingleCoinBalance: 0,
+      },
     },
     jobs,
     skills,

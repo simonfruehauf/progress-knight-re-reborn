@@ -322,6 +322,17 @@ export function gameTick(state: GameState): GameState {
     newState.player.currentMiscIds = [];
   }
 
+  const incomeAdded = totalIncome - expenses;
+  if (incomeAdded > 0) {
+    newState.player.stats.totalCoinsEarned += incomeAdded;
+  }
+
+  if (newState.player.coins > newState.player.stats.highestSingleCoinBalance) {
+    newState.player.stats.highestSingleCoinBalance = newState.player.coins;
+  }
+
+  newState.player.stats.timePlayedMs += 50;
+
   const newlyEarned = checkAchievements(newState);
   for (const achId of newlyEarned) {
     newState.player.achievements[achId] = Date.now();
