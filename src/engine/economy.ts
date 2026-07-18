@@ -1,17 +1,21 @@
 import { GameState } from './types';
 import { ITEM_MAP } from './data/items';
 
-export const UNITS = ['', 'k', 'M', 'B', 'T', 'q', 'Q', 'Sx', 'Sp', 'Oc'];
+const SUFFIXES = ['', 'k', 'M', 'B', 'T', 'q', 'Q', 'Sx', 'Sp', 'Oc', 'No', 'Dc'];
 
 export function formatNumber(n: number): string {
   if (n < 1000) return Math.floor(n).toString();
+  if (!isFinite(n)) return '∞';
   let value = n;
   let index = 0;
-  while (value >= 1000 && index < UNITS.length - 1) {
+  while (value >= 1000 && index < SUFFIXES.length - 1) {
     value /= 1000;
     index++;
   }
-  return value.toFixed(1) + UNITS[index];
+  if (index >= SUFFIXES.length - 1 && value >= 1000) {
+    return value.toFixed(1) + SUFFIXES[SUFFIXES.length - 1];
+  }
+  return value.toFixed(1) + SUFFIXES[index];
 }
 
 export interface CoinTier { label: string; value: number; color: string; }
