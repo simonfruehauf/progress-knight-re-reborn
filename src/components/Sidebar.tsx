@@ -36,7 +36,10 @@ function Sidebar() {
   return (
     <div className="sidebar">
       {state.player.age >= state.player.lifespan && (
-        <div className="death-text">You have died. Wait for it...</div>
+        <div>
+          <div className="death-text">Age has caught up to you</div>
+          <div className="death-subtitle">Your age has met your lifespan, use the amulet to rebirth before you pass away</div>
+        </div>
       )}
       <div>Age: {ageYears}y {day}d</div>
       <div>Lifespan: {lifespanYears}y</div>
@@ -55,44 +58,45 @@ function Sidebar() {
         Auto-learn
       </label>
 
-      <div>Balance (in coins)</div>
-      <div style={{ paddingLeft: 16 }}>
-        <div>Income: <CoinDisplay coins={totalIncome} /></div>
-        <div>Expense: <CoinDisplay coins={totalExpense} /></div>
-        <div>Net: {netSign}<CoinDisplay coins={net} /></div>
-      </div>
+      <div className="coin-balance-label">Balance (in coins)</div>
+
+      <ul className="balance-list">
+        <li><span className="net-color">Net/day: </span>{netSign}<CoinDisplay coins={net} /></li>
+        <li><span className="income-color">Income/day: </span><CoinDisplay coins={totalIncome} /></li>
+        <li><span className="expense-color">Expense/day: </span><CoinDisplay coins={totalExpense} /></li>
+      </ul>
 
       {currentJobId && jobState && (
         <div>
-          <div>Current job:</div>
-          <div className="progress-bar current">
+          <div className="progress-bar current" style={{ width: 230 }}>
             <ProgressBar current={jobState.xp} max={jobMaxXp} color="orange" />
             <span className="name">{JOB_MAP[currentJobId].name} lvl {jobState.level}</span>
           </div>
+          <div className="current-job-label">Current job</div>
         </div>
       )}
 
       {currentSkillId && skillState && (
         <div>
-          <div>Current skill:</div>
-          <div className="progress-bar current">
+          <div className="progress-bar current" style={{ width: 230 }}>
             <ProgressBar current={skillState.xp} max={skillMaxXp} color="orange" />
             <span className="name">{SKILL_MAP[currentSkillId].name} lvl {skillState.level}</span>
           </div>
+          <div className="current-skill-label">Current skill</div>
         </div>
       )}
 
-      <div>Happiness: {happiness.toFixed(2)}</div>
+      <div><span className="happiness-label">Happiness: </span>{happiness.toFixed(2)}</div>
 
-      {state.player.evil > 0 && <div>Evil: {state.player.evil.toFixed(1)}</div>}
+      {state.player.evil > 0 && <div><span className="evil-label">Evil: </span>{state.player.evil.toFixed(1)}</div>}
 
       {isSkillUnlocked(state, 'timeWarping') && (
-        <>
-          <div>Time warp: {timeMultiplier.toFixed(2)}x</div>
-          <button className="button" onClick={() => useGameStore.getState().toggleTimeWarp()}>
+        <div>
+          <div><span className="timewarp-label">Time warping: </span>{timeMultiplier.toFixed(2)}x</div>
+          <button className="button" onClick={() => useGameStore.getState().toggleTimeWarp()} style={{ marginTop: 5, width: 150 }}>
             {state.player.timeWarp ? 'Disable warp' : 'Enable warp'}
           </button>
-        </>
+        </div>
       )}
     </div>
   );

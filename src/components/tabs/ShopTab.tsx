@@ -34,7 +34,7 @@ function ShopTab() {
                 <td>
                   <span style={{ color: isActive ? 'green' : 'gray', fontSize: 24 }}>●</span>
                 </td>
-                <td>{item.description || `Happiness x${item.effect}`}</td>
+                <td>x{item.effect.toFixed(2)} {item.description || 'Happiness'}</td>
                 <td><CoinDisplay coins={item.expense} /></td>
               </tr>
             );
@@ -65,7 +65,7 @@ function ShopTab() {
                 <td>
                   <span style={{ color: isActive ? 'green' : 'gray', fontSize: 24 }}>●</span>
                 </td>
-                <td>{item.description}</td>
+                <td>x{item.effect.toFixed(2)} {item.description}</td>
                 <td><CoinDisplay coins={item.expense} /></td>
               </tr>
             );
